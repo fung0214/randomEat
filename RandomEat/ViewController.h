@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+@property (nonatomic,strong) NSMutableArray* eatArrayCMS;
+
+
 @property (nonatomic,weak) IBOutlet UISegmentedControl* segmentSpeed;
 @property (nonatomic,weak) IBOutlet UISegmentedControl* segmentDistance;
 @property (nonatomic,weak) IBOutlet UISegmentedControl* segmentPrice;

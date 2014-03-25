@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <Parse/Parse.h>
 
 @interface ViewController ()
 
@@ -17,13 +18,47 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    self.eatArrayCMS = [NSMutableArray array];
+    PFQuery* query = [PFQuery queryWithClassName:@"eatObject"];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        self.eatArrayCMS = [objects mutableCopy];
+    }];
+    //self.eatArrayCMS = [[query findObjects] mutableCopy];
+    
+    /*
+    [query getObjectInBackgroundWithId:nil block:^(PFObject* object,NSError *error) {
+        [self.eatArrayCMS addObject:object];
+    }];
+     */
+    /*
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject* object,NSError *error) {
+        [self.eatArrayCMS addObject:object];
+    }];
+*/
+    
+    PFObject *testObject = [PFObject objectWithClassName:@"Good"];
+    testObject[@"foo"] = @"bar";
+    [testObject saveInBackground];
 }
 
 -(IBAction) randomClick:(id) sender {
-    NSArray* eatArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"eatlist" ofType:@"plist"]];
     
     
+    //NSArray* eatArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"eatlist" ofType:@"plist"]];
+    NSArray* eatArray = self.eatArrayCMS;
+    
+    /*
+    for(NSDictionary* dict in eatArray) {
+        PFObject* eatObject = [PFObject objectWithClassName:@"eatObject"];
+        eatObject[@"name"] = dict[@"name"];
+        eatObject[@"price"] = dict[@"price"];
+        eatObject[@"distance"] = dict[@"distance"];
+        eatObject[@"speed"] = dict[@"speed"];
+        [eatObject saveInBackground];
+    }
+    */
     NSMutableArray* goodEatArray = [NSMutableArray array];
     
     for(NSDictionary* dict in eatArray) {
